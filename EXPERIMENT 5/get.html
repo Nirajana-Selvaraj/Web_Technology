@@ -1,0 +1,86 @@
+<html>
+    <head>
+      <title>get form</title>
+      <style>
+        body
+     {
+        font-family: Arial, sans-serif;
+        background-image:url("frm.img");
+        background-repeat:no-repeat;
+        background-size:1700px;
+        backdrop-filter: blur(20px);
+      }
+      
+      h1 
+      {
+        color:rgba(6, 6, 6, 0.943);
+        text-align: center;
+        padding:40px;
+      }
+      
+      form 
+      {
+        color:rgb(12, 12, 12);
+        max-width: 400px;
+        margin: 0 auto;
+       border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 10px;
+      background-color:grey;
+      }
+      
+      input[type="text"],
+      select 
+      {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #140101;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+    
+      input[type="submit"]
+      {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color:blue;
+        color:white;
+      }
+      </style>
+    </head>
+    <body>
+        <h1> REQUIRED DETAILS</h1>
+        <form action="http://localhost:8000/login" method="get">
+         NAME:<input type="text" name="username" value=""/><br/>
+                
+        ROLL NUMBER:<input type="text" name="rollnum" value=""/><br/>
+                
+        YEAR:<input type="text" name="year" value=""/><br/>
+                
+        <label for="gender">GENDER:</label></br>
+            <input type="radio" name="gender" value="female"/>FEMALE <br/>
+            <input type="radio" name="gender" value="male"/>MALE</br></br>
+        <label for="branch">BRANCH:</label>
+            <select id ="branch" name="branch">
+                <option value="select branch">select branch</option>
+                <option value="IT">IT</option>
+                <option value="CSE">CSE</option>
+                <option value="AIML">AIML</option>
+                <option value="AIDS">AIDS</option>
+                <option value="MECH">AIML</option>
+                <option value="ECE">ECE</option>
+            </select>
+        CONTACT NUMBER:<input type="text" name="phno" value=""/><br/>
+                
+        ADDRESS:<input type="text" name="address" value=""/><br/>
+                
+                <input type="submit" name="login" value="login"/>
+      </form>
+    </body>
+    </html>
+    
