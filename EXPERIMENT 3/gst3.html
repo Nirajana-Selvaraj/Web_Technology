@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST CALCULATOR</title>
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        #container {
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, .form-section label {
+            color: #333;
+            display: inline; 
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            width: 150px; 
+            text-align: left; 
+        }
+        input[type="text"], select {
+            width: calc(100% - 150px); 
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="button"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+        #outputDetails {
+            margin-top: 20px;
+            text-align: left;
+        }
+        #details p {
+            margin: 5px 0;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section label {
+            display: inline-block;
+        }
+        .form-section input[type="radio"],
+        .form-section label {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        #outputForm {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="container mt-5">
+        <h1 class="text-center">MOBILES</h1>
+        <div class="form-section">
+            <div id="inputForm">
+                <form method="POST" onsubmit="return validateForm()"> 
+                    <div class="form-group">
+                        <label for="gstno">GST Number:</label>
+                        <input type="text" id="gstno" name="gstno" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customername">Customer Name:</label>
+                        <input type="text" id="customername" name="customername" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" id="address" name="address" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="products">Select Product:</label>
+                        <select id="products" name="products" class="form-control" required>
+                            <option value="" disabled selected>Select Product</option>
+                            <option value="SAMSUNG" data-price="50000" data-gst="0.05">SAMSUNG(Rs.50000)</option>
+                            <option value="APPLE" data-price="100000" data-gst="0.12">APPLE(Rs.100000)</option>
+                            <option value="VIVO" data-price="80000" data-gst="0.08">Vivo(Rs.80000)</option>
+                            <option value="OPPO" data-price="75000" data-gst="0.10">Oppo(Rs.75000)</option>
+                            <option value="REDME" data-price="60000" data-gst="0.07">Redmi(Rs.60000)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Select Quantity:</label>
+                        <select id="quantity" name="quantity" class="form-control" required>
+                            <option value="" disabled selected>Select Quantity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payment Method:</label>
+                        <div>
+                            <input type="radio" name="payment" id="cash" value="cash" required>
+                            <label for="cash">Cash</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="payment" id="card" value="card" required>
+                            <label for="card">Card</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="payment" id="upi" value="upi" required>
+                            <label for="upi">UPI</label>
+                        </div>
+                    </div>
+
+                    <input type="button" value="Calculate" onclick="getdata()" class="btn btn-primary">
+                </form>
+            </div>
+
+            <div id="outputDetails" style="display: none;">
+                <h2>Output Details</h2>
+                
+                <div id="outputForm">
+                    <div class="form-group">
+                        <label>GST Number:</label>
+                        <input type="text" id="output-gstno" readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Customer Name:</label>
+                        <input type="text" id="output-customername" readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <input type="text" id="output-address" readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Product:</label>
+                        <input type="text" id="output-product" readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity:</label>
+                        <input type="text" id="output-quantity" readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Price:</label>
+                        <input type="text" id="output-price" readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>GST:</label>
+                        <input type="text" id="output-gst" readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Total Price (including GST):</label>
+                        <input type="text" id="output-total" readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Method:</label>
+                        <input type="text" id="output-payment" readonly class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function validateForm() {
+            let gstno = document.getElementById("gstno").value;
+            let customername = document.getElementById("customername").value;
+            let address = document.getElementById("address").value;
+            let product = document.getElementById("products").value;
+            let quantity = document.getElementById("quantity").value;
+            let payment = document.querySelector('input[name="payment"]:checked');
+
+            // GST Number should include only numbers
+            if (!/^\d+$/.test(gstno)) {
+                alert("GST Number should include only numbers.");
+                return false;
+            }
+
+            // Customer Name should include only alphabets
+            if (!/^[A-Za-z ]+$/.test(customername)) {
+                alert("Customer Name should include only alphabets.");
+                return false;
+            }
+
+            if (!gstno || !customername || !address || !product || !quantity || !payment) {
+                alert("Please fill out all fields.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function getdata() {
+            if (validateForm()) {
+                let gstno = document.getElementById("gstno").value;
+                let customername = document.getElementById("customername").value;
+                let address = document.getElementById("address").value;
+                let product = document.getElementById("products");
+                let selectedProduct = product.options[product.selectedIndex];
+                let quantity = document.getElementById("quantity").value;
+                let payment = document.querySelector('input[name="payment"]:checked');
+
+                payment = payment.value;
+
+                let productName = selectedProduct.value;
+                let productPrice = parseFloat(selectedProduct.getAttribute('data-price'));
+                let gstRate = parseFloat(selectedProduct.getAttribute('data-gst'));
+
+                let subtotal = productPrice * quantity;
+                let gst = gstRate * subtotal;
+                let totalCost = subtotal + gst;
+
+                document.getElementById("output-gstno").value = gstno;
+                document.getElementById("output-customername").value = customername;
+                document.getElementById("output-address").value = address;
+                document.getElementById("output-product").value = productName;
+                document.getElementById("output-quantity").value = quantity;
+                document.getElementById("output-price").value = "Rs. " + productPrice.toFixed(2);
+                document.getElementById("output-gst").value = "Rs. " + gst.toFixed(2);
+                document.getElementById("output-total").value = "Rs. " + totalCost.toFixed(2);
+                document.getElementById("output-payment").value = payment;
+
+                document.getElementById("inputForm").style.display = "none";
+                document.getElementById("outputDetails").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
