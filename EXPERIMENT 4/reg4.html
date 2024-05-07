@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form with JavaScript Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; 
+            background-image: url("https://coolwallpapers.me/picsup/3302729-circles-background-light-patterns.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        form {
+            background-color: #27cef3; 
+            max-width: 400px; 
+            margin: 20px auto; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        }
+
+        label {
+            display: inline-block; 
+            margin-right: 15px; 
+            margin-bottom: 8px; 
+        }
+    
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 15px; 
+            border: 1px solid #ccc;
+            border-radius: 4px; 
+            box-sizing: border-box; 
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 5px; 
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 12px 20px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049; 
+        }
+
+        .error {
+            color: #ff0000; 
+            margin-top: 5px; 
+        }
+    </style>
+
+    <script>
+        function validateForm() {
+            if (validateName() && validateGender() && validateLanguage() && validateAddress() && validateDistrict() && validatePhoneNumber() && validateEmail() && validateUsername() && validatePassword() && validatePAN()) {
+                window.location.href = "success.html";
+                return false; 
+            }
+            return false; 
+        }
+
+        function validateName() {
+            var nameField = document.getElementById("name");
+            var name = nameField.value.trim(); 
+            var regex = /^[A-Za-z\s]+$/;
+            if (!regex.test(name)) {
+                alert("Please enter a valid name with alphabets and spaces only.");
+                nameField.focus();
+                return false;
+            }
+            return true;
+        }
+
+        function validateGender() {
+            var genderMale = document.getElementById("gender-male");
+            var genderFemale = document.getElementById("gender-female");
+            if (!genderMale.checked && !genderFemale.checked) {
+                alert("Please select your gender.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateLanguage() {
+            var languageCheckboxes = document.querySelectorAll('input[name="language"]:checked');
+            if (languageCheckboxes.length === 0) {
+                alert("Please select at least one spoken language.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateAddress() {
+            var addressField = document.getElementById("address");
+            var address = addressField.value.trim(); // Remove leading and trailing spaces
+            if (address.length === 0) {
+                alert("Please enter your address.");
+                addressField.focus();
+                return false;
+            }
+            return true;
+        }
+
+        function validateDistrict() {
+            var districtSelect = document.getElementById("district");
+            var selectedDistrict = districtSelect.value;
+            if (selectedDistrict === "") {
+                alert("Please select your district.");
+                return false;
+            }
+            return true;
+        }
+
+        function validatePhoneNumber() {
+            var phoneNumberField = document.getElementById("phone");
+            var phoneNumber = phoneNumberField.value.trim(); 
+            var regex = /^\d{10}$/;
+            if (!regex.test(phoneNumber)) {
+                alert("Please enter a valid 10-digit phone number.");
+                phoneNumberField.focus();
+                return false;
+            }
+            return true;
+        }
+
+        function validateEmail() {
+            var emailField = document.getElementById("email");
+            var email = emailField.value.trim(); 
+            var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!regex.test(email)) {
+                alert("Please enter a valid email address.");
+                emailField.focus();
+                return false;
+            }
+            return true;
+        }
+
+        function validateUsername() {
+            var usernameField = document.getElementById("username");
+            var username = usernameField.value.trim(); 
+            var regex = /^[A-Za-z][A-Za-z_]*$/;
+            if (!regex.test(username)) {
+                alert("Please enter a valid username that starts with alphabets and can contain alphabets and underscores only.");
+                usernameField.focus();
+                return false;
+            }
+            return true;
+        }
+
+        function validatePassword() {
+            var passwordField = document.getElementById("password");
+            var password = passwordField.value.trim(); 
+            var regex = /^[a-zA-Z][a-zA-Z0-9*@/]{7,}$/;
+            if (!regex.test(password)) {
+                alert("Please enter a valid password. It should contain at least one uppercase letter, one lowercase letter, one number, one special character, and have a length of 7.");
+                passwordField.focus();
+                return false;
+            }
+            return true;
+        }
+
+        function validatePAN() {
+            var panField = document.getElementById("pan");
+            var pan = panField.value.trim(); 
+            var regex = /^[A-Z]{5}\d{3}[A-Z]$/;
+            if (!regex.test(pan)) {
+                alert("Please enter a valid PAN. It should have 5 alphabets followed by 3 digits and then 1 alphabet.");
+                panField.focus();
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <style>
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>  
+    <form action="#" method="post" onsubmit="return validateForm();">
+        <h3><b>Registration form</b></h3>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+        
+        <label>Gender:</label><br>
+        <input type="radio" id="gender-male" name="gender" value="male">
+        <label for="gender-male">Male</label><br>
+        <input type="radio" id="gender-female" name="gender" value="female">
+        <label for="gender-female">Female</label><br><br>
+
+        <label>Languages Known:</label><br>
+        <input type="checkbox" id="tamil" name="language" value="tamil">
+        <label for="tamil">TAMIL</label><br>
+        <input type="checkbox" id="english" name="language" value="english">
+        <label for="english">ENGLISH</label><br>
+        <input type="checkbox" id="hindi" name="language" value="hindi">
+        <label for="hindi">HINDI</label><br>
+        
+        <br>
+        <label for="pan">PAN Number:</label><br>
+        <input type="text" id="pan" name="pan"><br><br>
+
+        <label for="address">Address:</label><br>
+        <textarea id="address" name="address" rows="4" cols="50"></textarea><br><br>
+        
+        <label for="district">District:</label><br>
+        <select id="district" name="district">
+            <option value="">Please select</option>
+            <option value="THOOTHUKUDI">THOOTHUKUDI</option>
+            <option value="TIRUNELVELI">TIRUNELVELI</option>
+            <option value="MADURAI">MADURAI</option>
+            <option value="ERODE">ERODE</option>
+            <option value="SALEM">SALEM</option>
+        </select><br><br>
+
+        <label for="phone">Phone Number:</label><br>
+        <input type="text" id="phone" name="phone"><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
